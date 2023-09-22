@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.baise.mapper.RoleMapper">
+    <!--    全表查询-->
+    <select id="selRole" resultType="role">
+        select * from role
+    </select>
+<!--    添加-->
+    <insert id="addRole">
+       insert into role  values (#{role_name}, #{role_desc})
+    </insert>
+<!--    删除-->
+    <delete id="delRole">
+        delect from role where id = #{id}
+    </delete>
+</mapper>

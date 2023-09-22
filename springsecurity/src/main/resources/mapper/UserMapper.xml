@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.baise.mapper.UserMapper">
+<!--    全表查询-->
+    <select id="seluser" resultType="user">
+        select * from user
+    </select>
+<!--    单表查询-->
+    <select id="usinguser" resultType="user" parameterType="Integer">
+        select * from spbsecurity.user where id = #{id}
+    </select>
+<!--    修改-->
+    <update id="upuser" parameterType="user">
+        update user
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone},
+            </if>
+            <if test="mail != null">
+                mail = #{mail},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--    添加-->
+    <insert id="adduser">
+       insert into user (
+           username, telephone, mail, password, status
+            ) values (
+           #{username}, #{telephone}, #{mail}, #{password},#{status}
+       )
+    </insert>
+<!--    删除+批量删除-->
+    <delete id="deluser">
+        delete from user where id in (
+            <foreach collection="list" item="id" separator=",">
+                #{id}
+            </foreach>
+        )
+    </delete>
+<!--    用用户去查询他们对应的权限-->
+    <select id="seleuser_roleid" resultType="Integer">
+        select role_id from user_role where user_id = #{userId}
+    </select>
+<!--    添加用户的权限-->
+    <insert id="insertuserid_roleid">
+        insert into user_role (user_id, role_id) values (#{userId}, #{roleId})
+    </insert>
+<!--    删除用户的权限-->
+    <delete id="deleteuserid_roleid" parameterType="Integer">
+       delete from user_role where user_id = #{userId} and role_id = #{roleId}
+    </delete>
+
+
+</mapper>
